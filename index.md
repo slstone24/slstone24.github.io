@@ -8,8 +8,8 @@
 <img src="images/Conservation laws.png?raw=true"/>
 
 ---
-[On the Accuracy of Coupled Mode Theory With Applications in Integrated Photonic Devices](/pdf/sample_presentation.pdf)
-<img src="images/dummy_thumbnail.jpg?raw=true"/>
+[On the Accuracy of Coupled Mode Theory With Applications in Integrated Photonic Devices](/pdf/APHY_607_Final_Report.pdf)
+<img src="images/coupled_resonators.png?raw=true"/>
 
 ---
 [Project 3 Title](http://example.com/)
