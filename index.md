@@ -5,7 +5,7 @@
 ### Projects & Research 
 
 [Computational Bounds to the Quality Factor of a Fabry-Pérot Resonator Through Local Energy Conservation Laws](/pdf/APHY_472_Final_Report.pdf)
-<img src="images/dummy_thumbnail.jpg?raw=true"/>
+<img src="images/Conservation laws.png?raw=true"/>
 
 ---
 [Project 2 Title](/pdf/sample_presentation.pdf)
