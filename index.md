@@ -6,11 +6,13 @@
 
 [Computational Bounds to the Quality Factor of a Fabry-Pérot Resonator Through Local Energy Conservation Laws](/pdf/APHY_472_Final_Report.pdf)
 <br>
-[Power Point Presentation](/pdf/APHY 472 Presentation-Final Draft.pdf)
+[Power Point Presentation](/pdf/APHY 472 Final Presentation-Final Draft.pdf)
 <img src="images/Conservation laws.png?raw=true"/>
 
 ---
 [On the Accuracy of Coupled Mode Theory With Applications in Integrated Photonic Devices](/pdf/APHY_607_Final_Report.pdf)
+<br>
+[Power Point Presentation](/pdf/APHY 607 Final Presentation.pdf)
 <img src="images/coupled_resonators.png?raw=true"/>
 
 ---
@@ -32,5 +34,5 @@
 
 
 ---
-<p style="font-size:11px">Page template forked from <a href="https://github.com/evanca/quick-portfolio">evanca</a></p>
+<p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
