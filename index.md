@@ -8,7 +8,7 @@
 <img src="images/Conservation laws.png?raw=true"/>
 
 ---
-[Project 2 Title](/pdf/sample_presentation.pdf)
+[On the Accuracy of Coupled Mode Theory With Applications in Integrated Photonic Devices](/pdf/sample_presentation.pdf)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
