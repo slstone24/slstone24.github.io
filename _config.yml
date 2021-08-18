@@ -1,7 +1,10 @@
 title: Simon Stone # your name (or website title) here
 logo: "/images/logo.png?raw=true" # your photo (or logo) here
 description: > # your text below (remove <br> elements if you don't need line breaks)
-  Hi! My name is Simon, and I am a recent graduate with a degree in Applied Physics looking to work in tech. I am proficient in Excel, Python, and MATLAB. 
+  Hi! My name is Simon, and I am a recent graduate with a degree in Applied Physics looking exercise my skills in the development of meaninful technology.
+  <br><br>
+  My interests include renewable energy, biotech, electronics, optics, photonics, telecommunications, software, and everything in-between! 
+  <br><br>
   <a href="https://www.linkedin.com/in/simon-stone-4aa032164/">View My LinkedIn Profile</a> 
   
 theme: jekyll-theme-minimal
