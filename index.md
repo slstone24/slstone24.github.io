@@ -12,7 +12,10 @@
 <img src="images/coupled_resonators.png?raw=true"/>
 
 ---
+[Optimizing Optical Response: Computational Bounds to Quality Factor in 2D Transverse Electric Modes](/pdf/APHY 471 Presentation.pdf)
+<img src="images/high_Q_mode.jpg?raw=true"/>
 
+---
 ### Some Sample Code
 
 - [Project 1 Title](http://example.com/)
