@@ -36,7 +36,7 @@ if (isAwesome){
 ---
 ## Quality Factor Bound of Fabry-Pérot Resonator
 
-```MATLB
+```MATLAB
 function [cvx_optval,popt] = bound_Ds(S, D, A, epsr, U)
     % optimization problem:
     % max. p'*Im(w'*G0)*p + p'*Im(xi)p
