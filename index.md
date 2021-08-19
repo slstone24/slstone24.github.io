@@ -89,6 +89,9 @@ function Dopt = get_Dopt(p0,S,einc)
     Dopt = diag(d); % maximally violated constraint
 end
 ```
+The final results are shown below.
+<img src="images/results_final.jpg?raw=true"/>
+
 ---
 ## MC Simulated Annealing of Morse Potential Model
 This program uses Monte Carlo simulated annealing for optimization. We use the Morse Potential to compute the energy for an arbitrary number of atoms. We then use a Monte Carlo simulation to identify the lowest energy configuration of the atoms.
