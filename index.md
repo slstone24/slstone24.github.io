@@ -35,6 +35,7 @@ if (isAwesome){
 
 ---
 ## Quality Factor Bound of Fabry-Pérot Resonator
+The function `bound_Ds` defines an optimization provlem in the form of a quadratically constrained quadratic program (QCQP).
 
 ```MATLAB
 function [cvx_optval,popt] = bound_Ds(S, D, A, epsr, U)
@@ -71,6 +72,15 @@ function [cvx_optval,popt] = bound_Ds(S, D, A, epsr, U)
     cvx_end
     
     popt = extract_p_opt(X);
+end
+```
+Upon each iteration *i*, we relax the original quadratic program over semidefinite matrices to arrive at a higher-dimensional linear program, commonnly known as semidefinite relaxation. 
+```MATLAB
+for i = 3:ND
+  einc = zeros(size(G0,1),1);
+  D{i} = get_Dopt(popt{i-1},S,einc);
+  [fmax(i),popt{i}] = bound_Ds(S,D,A,epsr,U);
+  fprintf(’ D matrix: %d / %d, fmax = %s \n’, i, ND, fmax(i))
 end
 ```
 
