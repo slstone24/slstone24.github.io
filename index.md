@@ -211,8 +211,9 @@ function E = Energymorse(r)
       end
 end
 ```
-
-
+The following plots shows the lowest energy configuration of the atoms and the autocorrelation function, respectively.
+<img src="images/MC_config.jpg?raw=true"/>
+<img src="images/auto_correlation.jpg?raw=true"/>
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
