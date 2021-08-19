@@ -64,7 +64,7 @@ function [cvx_optval,popt] = bound_Ds(S, D, A, epsr, U)
 end
 ```
 Upon each iteration *i*, we relax the original quadratic program over semidefinite matrices to arrive at a higher-dimensional linear program, commonnly known as semidefinite relaxation. 
-```MATLAB
+```Matlab
 for i = 3:ND
   einc = zeros(size(G0,1),1);
   D{i} = get_Dopt(popt{i-1},S,einc);
@@ -73,7 +73,7 @@ for i = 3:ND
 end
 ```
 The optimal polarization current is calculated as the largest eigenvector from the previous iteration of semidefintie relaxation: `[p_opt,~] = eigs(X,1)`. We use this eigenvector to compute the "most violated" D matrix constraint to impose upon the next iteration of our convex optimization:
-```MATLAB
+```Matlab
 function Dopt = get_Dopt(p0,S,einc)
     
     if isnan(p0) % if optimal current is nan, return a random diagonal D matrix
@@ -95,7 +95,7 @@ This program uses Monte Carlo simulated annealing for optimization. We use the M
 
 
 
-```MATLAB
+```Matlab
 clear
 close all
 % the function Energymorse computes energy
