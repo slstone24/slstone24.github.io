@@ -26,7 +26,7 @@
 ## Quality Factor Bound of Fabry-Pérot Resonator
 The function `bound_Ds` defines an optimization provlem in the form of a quadratically constrained quadratic program (QCQP).
 
-```MATLAB
+```Matlab
 function [cvx_optval,popt] = bound_Ds(S, D, A, epsr, U)
     % optimization problem:
     % max. p'*Im(w'*G0)*p + p'*Im(xi)p
