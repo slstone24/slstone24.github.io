@@ -98,7 +98,7 @@ This program uses Monte Carlo simulated annealing for optimization. We use the M
 ```MATLAB
 clear
 close all
-% the function Energymorse computes energy for part a)
+% the function Energymorse computes energy
 
 %initialize variables
 Nat = 4;
