@@ -296,6 +296,8 @@ ax.set_zlabel('Y3')
 plt.title("3-coordinate PCA for Fisher's Iris Data")
 plt.show()
 ```
+<img src="images/2d_iris.png?raw=true"/>
+<img src="images/3d_iris.png?raw=true"/>
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
