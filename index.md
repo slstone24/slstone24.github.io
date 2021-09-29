@@ -220,7 +220,8 @@ The following plots shows the lowest energy configuration of the atoms and the a
 
 ---
 ## PCA Analysis of Fisher's Iris Data
-The following Python program shows a PCA (principal component analysis) of Fisher's [Iris dataset](https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv) from scratch. The function `corr(z1, z2)` calculates the desired element of the correlation matrix between two sets of data. The output of this program can be seen below.
+The following Python program shows a PCA (principal component analysis) of Fisher's [Iris dataset](https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv) from scratch. The data istelf shows three species of Iris flowers (Setosa, Virginica, and Versicolor) and the four metrics that describe them: sepal width, sepal length, petal width, and petal length. 
+The function `corr(z1, z2)` calculates the desired element of the correlation matrix between two sets of data. The output of this program can be seen below.
 
 ```python
 import csv
@@ -298,6 +299,8 @@ plt.show()
 ```
 <img src="images/2d_iris.png?raw=true"/>
 <img src="images/3d_iris.png?raw=true"/>
+
+The first image shows the 2D orthogonal subspace that accounts for most of the variance within the data. The axes represent the first two principal components, and the red, blue, and green dots correspond to Versicolor, Setosa, and Virginica Iris flowers, respectively. With this respresentation of the data, we can easily differentiate between the Setosa set and the Virginica/Versicolor set. In order to better differentiate between the Virginica/Versicolor set, we need a third principal component, as seen in the second figure.
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
