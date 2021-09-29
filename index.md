@@ -220,8 +220,8 @@ The following plots shows the lowest energy configuration of the atoms and the a
 
 ---
 ## PCA Analysis of Fisher's Iris Data
-
-```Python
+The following Python program shows a PCA (principal component analysis) of Fisher's [Iris dataset] (https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv) from scratch.
+```python
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
