@@ -23,6 +23,90 @@
 ### Some Sample Code
 
 ---
+## PCA Analysis of Fisher's Iris Data
+The following Python program shows a PCA (principal component analysis) of Fisher's [Iris dataset](https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv) from scratch. The data istelf shows three species of Iris flowers (Setosa, Virginica, and Versicolor) and the four metrics that describe them: sepal width, sepal length, petal width, and petal length. 
+The function `corr(z1, z2)` calculates the desired element of the correlation matrix between two sets of data. The output of this program can be seen below.
+
+```python
+import csv
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy import linalg as LA
+from mpl_toolkits.mplot3d import Axes3D
+
+
+def corr(z1, z2):
+
+    n = len(z1)
+    z1_bar = np.mean(z1)
+    z2_bar = np.mean(z2)
+    std1 = np.std(z1)
+    std2 = np.std(z2)
+    s = 0
+    for i, j in zip(z1, z2):
+        s = s + ((i-z1_bar) * (j-z2_bar))
+    c = s / (n-1)
+    r = c / (std1 * std2)
+    return r
+
+
+# open and read csv data into array
+
+with open('iris.csv', newline='') as iris:
+
+    reader = csv.reader(iris)  # read into csv
+    X = np.array(list(reader))  # read csv into matrix
+    X = np.delete(X, 0, 0)  # delete header row
+
+# flag array for PCA plot
+flag = []
+for i in range(len(X)):
+    if 'Versicolor' in X[i]:
+        flag = np.append(flag, "red")
+    elif 'Setosa' in X[i]:
+        flag = np.append(flag, "blue")
+    elif 'Virginica' in X[i]:
+        flag = np.append(flag, "green")
+
+X = np.delete(X, -1, -1)  # delete last column
+X = X.astype(float)
+R = np.ones([X.shape[1], X.shape[1]])
+row = R.shape[0]
+col = R.shape[1]
+
+
+for i in range(row):
+    for j in range(col):
+        R[i][j] = corr(X[:, i], X[:, j])
+
+p, V = LA.eig(R)
+
+## PCA
+
+Y = X@V
+
+# 2 coordinate PCA
+plarkart.scatter(Y[:,0], Y[:,1], c=flag, label=flag)
+plt.xlabel('Y1')
+plt.ylabel('Y2')
+plt.title("2-coordinate PCA for Fisher's Iris Data")
+plt.show()
+
+# 3 coordinate PCA
+ax = plt.axes(projection='3d')
+ax.scatter3D(Y[:,0], Y[:,1], Y[:,2], c=flag, label=flag)
+ax.set_xlabel('Y1')
+ax.set_ylabel('Y2')
+ax.set_zlabel('Y3')
+plt.title("3-coordinate PCA for Fisher's Iris Data")
+plt.show()
+```
+<img src="images/2d_iris.png?raw=true"/>
+<img src="images/3d_iris.png?raw=true"/>
+
+The first image shows the 2D orthogonal subspace that accounts for most of the variance within the data. The axes represent the first two principal components, and the red, blue, and green dots correspond to Versicolor, Setosa, and Virginica Iris flowers, respectively. With this respresentation of the data, we can easily differentiate between the Setosa set and the Virginica/Versicolor set. In order to better differentiate between the Virginica/Versicolor set, we need a third principal component, as seen in the second figure.
+
+---
 ## Quality Factor Bound of Fabry-Pérot Resonator
 The function `bound_Ds` defines an optimization provlem in the form of a quadratically constrained quadratic program (QCQP).
 
@@ -217,90 +301,6 @@ end
 The following plots shows the lowest energy configuration of the atoms and the autocorrelation function, respectively.
 <img src="images/MC_config.jpg?raw=true"/>
 <img src="images/auto_correlation.jpg?raw=true"/>
-
----
-## PCA Analysis of Fisher's Iris Data
-The following Python program shows a PCA (principal component analysis) of Fisher's [Iris dataset](https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv) from scratch. The data istelf shows three species of Iris flowers (Setosa, Virginica, and Versicolor) and the four metrics that describe them: sepal width, sepal length, petal width, and petal length. 
-The function `corr(z1, z2)` calculates the desired element of the correlation matrix between two sets of data. The output of this program can be seen below.
-
-```python
-import csv
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy import linalg as LA
-from mpl_toolkits.mplot3d import Axes3D
-
-
-def corr(z1, z2):
-
-    n = len(z1)
-    z1_bar = np.mean(z1)
-    z2_bar = np.mean(z2)
-    std1 = np.std(z1)
-    std2 = np.std(z2)
-    s = 0
-    for i, j in zip(z1, z2):
-        s = s + ((i-z1_bar) * (j-z2_bar))
-    c = s / (n-1)
-    r = c / (std1 * std2)
-    return r
-
-
-# open and read csv data into array
-
-with open('iris.csv', newline='') as iris:
-
-    reader = csv.reader(iris)  # read into csv
-    X = np.array(list(reader))  # read csv into matrix
-    X = np.delete(X, 0, 0)  # delete header row
-
-# flag array for PCA plot
-flag = []
-for i in range(len(X)):
-    if 'Versicolor' in X[i]:
-        flag = np.append(flag, "red")
-    elif 'Setosa' in X[i]:
-        flag = np.append(flag, "blue")
-    elif 'Virginica' in X[i]:
-        flag = np.append(flag, "green")
-
-X = np.delete(X, -1, -1)  # delete last column
-X = X.astype(float)
-R = np.ones([X.shape[1], X.shape[1]])
-row = R.shape[0]
-col = R.shape[1]
-
-
-for i in range(row):
-    for j in range(col):
-        R[i][j] = corr(X[:, i], X[:, j])
-
-p, V = LA.eig(R)
-
-## PCA
-
-Y = X@V
-
-# 2 coordinate PCA
-plarkart.scatter(Y[:,0], Y[:,1], c=flag, label=flag)
-plt.xlabel('Y1')
-plt.ylabel('Y2')
-plt.title("2-coordinate PCA for Fisher's Iris Data")
-plt.show()
-
-# 3 coordinate PCA
-ax = plt.axes(projection='3d')
-ax.scatter3D(Y[:,0], Y[:,1], Y[:,2], c=flag, label=flag)
-ax.set_xlabel('Y1')
-ax.set_ylabel('Y2')
-ax.set_zlabel('Y3')
-plt.title("3-coordinate PCA for Fisher's Iris Data")
-plt.show()
-```
-<img src="images/2d_iris.png?raw=true"/>
-<img src="images/3d_iris.png?raw=true"/>
-
-The first image shows the 2D orthogonal subspace that accounts for most of the variance within the data. The axes represent the first two principal components, and the red, blue, and green dots correspond to Versicolor, Setosa, and Virginica Iris flowers, respectively. With this respresentation of the data, we can easily differentiate between the Setosa set and the Virginica/Versicolor set. In order to better differentiate between the Virginica/Versicolor set, we need a third principal component, as seen in the second figure.
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
