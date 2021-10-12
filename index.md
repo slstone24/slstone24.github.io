@@ -111,7 +111,6 @@ xA = np.fft.fftshift(signal.correlate(xlist-np.mean(xlist),
                                       xlist-np.mean(xlist)))
 plt.plot(EA[0:3000]/EA[0])
 plt.plot(xA[0:3000]/xA[0])
-plt.plot(xA[0:3000]/xA[0])
 plt.legend(['Energy', 'x1'])
 plt.title('Auto-correlation for Morse MC')
 plt.xlabel('lag')
