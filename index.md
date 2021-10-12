@@ -182,7 +182,7 @@ This program uses Monte Carlo simulated annealing for optimization. We use the M
 
 
 
-'''python
+```python
 import numpy as np
 from numpy.linalg import norm
 import math
@@ -283,8 +283,8 @@ for j in range(Nat):
                  color='black', markersize=0.005)
 plt.title('Minimum Energy Structure, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
 plt.show()
+```
 
-'''
 The following plots shows the lowest energy configuration of the atoms, autocorrelation function of the energies and their spatial positions, and the energy and spatial coordiante histories, respectively.
 <img src="images/MC_config.jpg?raw=true"/>
 <img src="images/auto_correlation.jpg?raw=true"/>
