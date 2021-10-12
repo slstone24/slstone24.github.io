@@ -98,15 +98,19 @@ plt.plot(Elist)
 plt.plot(rlist[:, 0, 0])
 plt.xlabel('Step')
 plt.legend(['Energy', 'x1'])
-plt.title('Energy History, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
+plt.title('Energy History, Natom = {Natom}, '
+          'kT = {kT}'.format(Natom=Nat, kT=kT))
 plt.show()
 
 # plot autocorrelation
 Elist = Elist[2000:-1]
 xlist = rlist[2000:-1, 0, 0]
-EA = np.fft.fftshift(signal.correlate(Elist-np.mean(Elist), Elist-np.mean(Elist)))
-xA = np.fft.fftshift(signal.correlate(xlist-np.mean(xlist), xlist-np.mean(xlist)))
+EA = np.fft.fftshift(signal.correlate(Elist-np.mean(Elist),
+                                      Elist-np.mean(Elist)))
+xA = np.fft.fftshift(signal.correlate(xlist-np.mean(xlist),
+                                      xlist-np.mean(xlist)))
 plt.plot(EA[0:3000]/EA[0])
+plt.plot(xA[0:3000]/xA[0])
 plt.plot(xA[0:3000]/xA[0])
 plt.legend(['Energy', 'x1'])
 plt.title('Auto-correlation for Morse MC')
@@ -124,10 +128,14 @@ ax = plt.axes(projection='3d')
 ax.scatter3D(r[:, 0], r[:, 1], r[:, 2], s=40)
 for j in range(Nat):
     for k in range(1, Nat):
-        plt.plot([r[j, 0], r[k, 0]], [r[j, 1], r[k, 1]], [r[j, 2], r[k, 2]],
-                 color='black', markersize=0.005)
-plt.title('Minimum Energy Structure, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
+        plt.plot([r[j, 0], r[k, 0]],
+                 [r[j, 1], r[k, 1]],
+                 [r[j, 2], r[k, 2]], color='black', markersize=0.005)
+plt.title('Minimum Energy Structure, Natom = {Natom},'
+          ' kT = {kT}'.format(Natom=Nat, kT=kT))
 plt.show()
+
+
 ```
 
 The following plots shows the lowest energy configuration of the atoms, autocorrelation function of the energies and their spatial positions, and the energy and spatial coordiante histories, respectively.
