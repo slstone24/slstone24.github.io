@@ -21,6 +21,119 @@
 
 ---
 ### Some Sample Code
+---
+## MC Simulated Annealing of Morse Potential Model
+This program uses Monte Carlo simulated annealing for optimization. We use the Morse Potential to compute the energy for an arbitrary number of atoms. We then use a Monte Carlo simulation to identify the lowest energy configuration of the atoms.
+
+
+
+```python
+import numpy as np
+from numpy.linalg import norm
+import math
+import matplotlib.pyplot as plt
+from scipy import signal
+
+
+def energy_morse(r):
+    """
+    Given spatial coordinates from Nat atoms,
+    return energy according to Morse potential model
+    """
+    D = 1
+    a = 1
+    re = 1
+
+    Natom = np.size(r, 0)
+    E = 0
+    for j in range(Natom):
+        for k in range(j+1, Natom):
+            rjk = norm(r[j, :] - r[k, :])
+            E = E + D * (1 - math.exp(-a * (rjk - re))) ** 2
+
+    return E
+
+# initialize variables
+Nat = 4
+kT = 0.02
+Niter = 200000
+sigma = 0.1
+
+# initialize matrices to store energies and coordinates
+r = np.random.normal(Nat, 3)
+r = r - np.ones((Nat, 3)) * np.mean(r)
+E = energy_morse(r)
+rlist = np.zeros((Niter, Nat, 3))
+Elist = np.zeros((Niter, 1))
+sigmalist = np.zeros((Niter, 1))
+nacc = 0
+
+# loop through Niter times, store coordinates, energies, and sigmas
+for j in range(Niter):
+    rnew = r + sigma * np.random.uniform(size=r.shape)
+    rnew = rnew - np.ones((Nat, 1)) * rnew.mean(axis=0)
+    Enew = energy_morse(rnew)
+    A = np.minimum(1, math.exp(-(Enew - E) / kT))
+
+    # if A > u, with u as uniform
+    # random deviate, accept, otherwise
+    # reject
+    if A > np.random.uniform():
+        r = rnew
+        E = Enew
+        nacc += 1
+        sigma = sigma * 1.01
+    else:
+        sigma = sigma * 0.99
+    if sigma > 1:
+        sigma = 1
+
+    rlist[j, :, :] = r
+    Elist[j] = E
+    sigmalist[j] = sigma
+
+# plot energy history
+print('kt =', kT, 'accept ratio =', nacc / Niter)
+plt.plot(Elist)
+plt.plot(rlist[:, 0, 0])
+plt.xlabel('Step')
+plt.legend(['Energy', 'x1'])
+plt.title('Energy History, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
+plt.show()
+
+# plot autocorrelation
+Elist = Elist[2000:-1]
+xlist = rlist[2000:-1, 0, 0]
+EA = np.fft.fftshift(signal.correlate(Elist-np.mean(Elist), Elist-np.mean(Elist)))
+xA = np.fft.fftshift(signal.correlate(xlist-np.mean(xlist), xlist-np.mean(xlist)))
+plt.plot(EA[0:3000]/EA[0])
+plt.plot(xA[0:3000]/xA[0])
+plt.legend(['Energy', 'x1'])
+plt.title('Auto-correlation for Morse MC')
+plt.xlabel('lag')
+plt.ylabel('Auto-correlation')
+plt.show()
+
+# plot energy config
+Emin = min(Elist)
+idx = np.argmin(Elist)
+r = np.squeeze(rlist[idx, :, :])
+print('Emin =', Emin)
+print('Energy =', energy_morse(r))
+ax = plt.axes(projection='3d')
+ax.scatter3D(r[:, 0], r[:, 1], r[:, 2], s=40)
+for j in range(Nat):
+    for k in range(1, Nat):
+        plt.plot([r[j, 0], r[k, 0]], [r[j, 1], r[k, 1]], [r[j, 2], r[k, 2]],
+                 color='black', markersize=0.005)
+plt.title('Minimum Energy Structure, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
+plt.show()
+```
+
+The following plots shows the lowest energy configuration of the atoms, autocorrelation function of the energies and their spatial positions, and the energy and spatial coordiante histories, respectively.
+<img src="images/atom_config.png?raw=true"/>
+<img src="images/auto_corr.png?raw=true"/>
+<img src="images/energy_history.png?raw=true"/>
 
 ---
 ## PCA Analysis of Fisher's Iris Data
@@ -175,119 +288,6 @@ end
 ```
 The final results are shown below.
 <img src="images/results_final.jpg?raw=true"/>
-
----
-## MC Simulated Annealing of Morse Potential Model
-This program uses Monte Carlo simulated annealing for optimization. We use the Morse Potential to compute the energy for an arbitrary number of atoms. We then use a Monte Carlo simulation to identify the lowest energy configuration of the atoms.
-
-
-
-```python
-import numpy as np
-from numpy.linalg import norm
-import math
-import matplotlib.pyplot as plt
-from scipy import signal
-
-
-def energy_morse(r):
-    """
-    Given spatial coordinates from Nat atoms,
-    return energy according to Morse potential model
-    """
-    D = 1
-    a = 1
-    re = 1
-
-    Natom = np.size(r, 0)
-    E = 0
-    for j in range(Natom):
-        for k in range(j+1, Natom):
-            rjk = norm(r[j, :] - r[k, :])
-            E = E + D * (1 - math.exp(-a * (rjk - re))) ** 2
-
-    return E
-
-# initialize variables
-Nat = 4
-kT = 0.02
-Niter = 200000
-sigma = 0.1
-
-# initialize matrices to store energies and coordinates
-r = np.random.normal(Nat, 3)
-r = r - np.ones((Nat, 3)) * np.mean(r)
-E = energy_morse(r)
-rlist = np.zeros((Niter, Nat, 3))
-Elist = np.zeros((Niter, 1))
-sigmalist = np.zeros((Niter, 1))
-nacc = 0
-
-# loop through Niter times, store coordinates, energies, and sigmas
-for j in range(Niter):
-    rnew = r + sigma * np.random.uniform(size=r.shape)
-    rnew = rnew - np.ones((Nat, 1)) * rnew.mean(axis=0)
-    Enew = energy_morse(rnew)
-    A = np.minimum(1, math.exp(-(Enew - E) / kT))
-
-    # if A > u, with u as uniform
-    # random deviate, accept, otherwise
-    # reject
-    if A > np.random.uniform():
-        r = rnew
-        E = Enew
-        nacc += 1
-        sigma = sigma * 1.01
-    else:
-        sigma = sigma * 0.99
-    if sigma > 1:
-        sigma = 1
-
-    rlist[j, :, :] = r
-    Elist[j] = E
-    sigmalist[j] = sigma
-
-# plot energy history
-print('kt =', kT, 'accept ratio =', nacc / Niter)
-plt.plot(Elist)
-plt.plot(rlist[:, 0, 0])
-plt.xlabel('Step')
-plt.legend(['Energy', 'x1'])
-plt.title('Energy History, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
-plt.show()
-
-# plot autocorrelation
-Elist = Elist[2000:-1]
-xlist = rlist[2000:-1, 0, 0]
-EA = np.fft.fftshift(signal.correlate(Elist-np.mean(Elist), Elist-np.mean(Elist)))
-xA = np.fft.fftshift(signal.correlate(xlist-np.mean(xlist), xlist-np.mean(xlist)))
-plt.plot(EA[0:3000]/EA[0])
-plt.plot(xA[0:3000]/xA[0])
-plt.legend(['Energy', 'x1'])
-plt.title('Auto-correlation for Morse MC')
-plt.xlabel('lag')
-plt.ylabel('Auto-correlation')
-plt.show()
-
-# plot energy config
-Emin = min(Elist)
-idx = np.argmin(Elist)
-r = np.squeeze(rlist[idx, :, :])
-print('Emin =', Emin)
-print('Energy =', energy_morse(r))
-ax = plt.axes(projection='3d')
-ax.scatter3D(r[:, 0], r[:, 1], r[:, 2], s=40)
-for j in range(Nat):
-    for k in range(1, Nat):
-        plt.plot([r[j, 0], r[k, 0]], [r[j, 1], r[k, 1]], [r[j, 2], r[k, 2]],
-                 color='black', markersize=0.005)
-plt.title('Minimum Energy Structure, Natom = {Natom}, kT = {kT}'.format(Natom=Nat, kT=kT))
-plt.show()
-```
-
-The following plots shows the lowest energy configuration of the atoms, autocorrelation function of the energies and their spatial positions, and the energy and spatial coordiante histories, respectively.
-<img src="images/MC_config.jpg?raw=true"/>
-<img src="images/auto_correlation.jpg?raw=true"/>
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
