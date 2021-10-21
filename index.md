@@ -296,5 +296,152 @@ end
 The final results are shown below.
 <img src="images/results_final.jpg?raw=true"/>
 
+
+---
+## Feed Forward Neural Network for Classification of MNIST Handwritten Digits
+
+```python
+import numpy as np
+import random
+import load_data
+import matplotlib.pyplot as plt
+
+
+class neuralNet:
+
+    def __init__(self, layers):
+        """
+        initialize layers, length, biases, weights, etc.
+        """
+        self.layers = layers
+        self.num_layers = len(layers)
+        self.biases = [np.random.randn(y, 1) for y in layers[1:]]
+        self.weights = [np.random.randn(y, x)
+                        for y, x in zip(layers[1:], layers[:-1])]
+
+    def model(self, a):
+        """
+        feed data forward and return vector output
+        """
+        for b, w in zip(self.biases, self.weights):
+            z = np.dot(w, a) + b
+            a = sigmoid(z)
+        return a
+
+    def SGD(self, training_data, epochs, mb_size, eta, test_data=None):
+        """
+        train network with each minibatch of data for input num
+        of epochs through stochastic gradient descent
+        """
+        if test_data:
+            test_data = list(test_data)
+            num_test = len(test_data)
+
+        training_data = list(training_data)
+        n = len(training_data)
+        class_rate = []
+        for i in range(epochs):
+            # shuffle training data upon each epoch iteration
+            random.shuffle(training_data)
+            mb_list = [training_data[k:k+mb_size]
+                       for k in range(0, n, mb_size)]
+            for mb in mb_list:
+                # update mini batch according to SGD rule
+                self.update(mb, eta)
+
+            if test_data:
+                test_results = [(np.argmax(self.model(x)), y)
+                                for (x, y) in test_data]
+                evaluate = sum(int(x == y) for (x, y) in test_results)
+                class_rate.append((evaluate / num_test) * 100)
+                print("Epoch {} : {} / {} -- classification rate = {} %"
+                      .format(i, evaluate, num_test, class_rate[i]))
+            else:
+                print("Epoch {} complete".format(i))
+        return class_rate
+
+    def update(self, mb, eta):
+        """
+        update weight and biases by applying gradient descent
+        via backprop to single mini batch
+        """
+        # preallocate lists of matrices of zeros for
+        # weight and biases gradients for each layer
+        del_b = [np.zeros(b.shape) for b in self.biases]
+        del_w = [np.zeros(w.shape) for w in self.weights]
+        for x, y in mb:
+            del_b1, del_w1 = self.backprop(x, y)
+            del_b = [db + db1 for db, db1 in zip(del_b, del_b1)]
+            del_w = [dw + dw1 for dw, dw1 in zip(del_w, del_w1)]
+        self.biases = [b - (eta / len(mb)) * b1
+                       for b, b1 in zip(self.biases, del_b)]
+        self.weights = [w - (eta / len(mb)) * w1
+                        for w, w1 in zip(self.weights, del_w)]
+
+    def backprop(self, x, y):
+        """
+        backpropogate error. returns tuples consisting of
+        del_b and del_w vectors for each layer
+        """
+        # preallocate list of zeros for weight and biases gradients
+        del_b = [np.zeros(b.shape) for b in self.biases]
+        del_w = [np.zeros(w.shape) for w in self.weights]
+        a = x
+        a_list = [x]  # store layered activations
+        z_list = []  # store z vectors
+
+        for b, w in zip(self.biases, self.weights):
+            z = np.dot(w, a) + b  # feed forward
+            a = sigmoid(z)
+            a_list.append(a)  # store a values
+            z_list.append(z)  # store z values
+
+        # output error
+        cost_derivative = a_list[-1] - y  # dC / da = output - desired_output
+        error = cost_derivative * sigmoid_prime(z_list[-1])
+
+        # backprop error
+        del_b[-1] = error
+        del_w[-1] = np.dot(error, a_list[-2].transpose())
+        for l in range(2, self.num_layers):
+            error = np.dot(self.weights[-l+1].transpose(), error) \
+                    + sigmoid_prime(z_list[-l])
+            del_b[-l] = error
+            del_w[-l] = np.dot(error, a_list[-l-1].transpose())
+        return del_b, del_w
+
+
+def sigmoid(z):
+    """
+    sigmoid function
+    """
+    return 1.0/(1.0+np.exp(-z))
+
+
+def sigmoid_prime(z):
+    """
+    derivative of sigmoid function
+    """
+    return sigmoid(z) * (1 - sigmoid(z))
+
+
+# now test feed forward with MNIST and random weights & biases
+net_structure = [784, 30, 10]
+net = neuralNet(net_structure)
+training_data, validation_data, test_data = load_data.load_data_wrapper()
+training_data = list(training_data)
+
+# test SGD
+eta = 3.0
+mini_batch_size = 10
+epochs = 30
+classification_rate = net.SGD(training_data,
+                              epochs, mini_batch_size, eta, test_data=test_data)
+plt.plot(classification_rate)
+plt.xlabel('Epoch')
+plt.ylabel('Classification Rate (%)')
+plt.show()
+```
+
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
