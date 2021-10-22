@@ -299,6 +299,7 @@ The final results are shown below.
 
 ---
 ## Feed Forward Neural Network for Classification of MNIST Handwritten Digits
+The following script employs a feed-forward neural network for the classification of MNIST handwritten digits. I used stochastic gradient descent and backpropogation in order to update the weights and biases for each layer of the network evaulated the classification rate upon each epoch of training. This network achieved a maximum classification rate of ~95%. 
 
 ```python
 import numpy as np
@@ -442,6 +443,8 @@ plt.xlabel('Epoch')
 plt.ylabel('Classification Rate (%)')
 plt.show()
 ```
+The classification rate vs. epoch training period can be seen plotted below.
+<img src="images/neural_net_copy.png?raw=true"/>
 
 <p style="font-size:11px"></p>
 <!-- Remove above link if you don't want to attibute -->
